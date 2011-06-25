@@ -1,0 +1,6 @@
+.bundle
+pkg/
+log/
+Gemfile.lock
+vendor/bundle
+config/mongo.yml
