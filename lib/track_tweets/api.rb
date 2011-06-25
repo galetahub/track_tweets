@@ -20,32 +20,45 @@ module TrackTweets
       end
     end
     
-    resource :groups do
+    resources :groups do
+      helpers do
+        def group
+          @group ||= Models::Group.find(params[:id])
+        end
+      end
+      
       get do
         render Models::Group.all
       end
       
-      get '/:id/show' do
-        render Models::Group.find(params[:id])
+      get ':id' do
+        render group
+      end
+      
+      get ':id/show' do
+        render group
       end
       
       post do
         render Models::Group.create(params[:group])
       end
       
-      put do
+      put ':id' do
+        render group.update_attributes(params[:group])
       end
       
       delete '/:id' do
+        group.destroy
+        render group
       end
     end
     
-    resource :track_items do
+    resources :track_items do
       get '/:group_id' do
       end
     end
     
-    resource :track_item_stats do
+    resources :track_item_stats do
     end
   end
 end
