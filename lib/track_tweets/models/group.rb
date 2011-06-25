@@ -15,6 +15,8 @@ module TrackTweets
       # Validations
       validates_presence_of :name
       
+      many :track_items
+      
       attr_accessible :name, :callback_url, :timeout, :delay
     end
   end
