@@ -12,7 +12,7 @@ module TrackTweets
     
     helpers do
       def render(collection, options = {})
-        case params[:format]
+        case (params[:format] || API.settings[:default_format]).to_s
           when 'xml' then collection.to_xml(options)
           when 'json' then collection.to_json(options)
           else collection
@@ -29,8 +29,14 @@ module TrackTweets
         render Models::Group.find(params[:id])
       end
       
-      post :create do
+      post do
         render Models::Group.create(params[:group])
+      end
+      
+      put do
+      end
+      
+      delete '/:id' do
       end
     end
     

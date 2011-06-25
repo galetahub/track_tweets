@@ -1,21 +1,21 @@
 module TrackTweets
   module Models
     class Group
-      include MongoMapper::Document
-
+      include Base
+      
+      # Columns
       key :name, String
       key :public_token, String
       key :callback_url, String
-      key :timeout, Integer
-      key :delay, Integer
-      key :state,  Integer
+      key :timeout, Integer, :default => 30
+      key :delay, Integer, :default => 30
+      key :state,  Integer, :default => 1
+      timestamps!
+      
+      # Validations
+      validates_presence_of :name
       
       attr_accessible :name, :callback_url, :timeout, :delay
-      
-      def to_xml(options = {}, &block)
-        options[:root] = "group"
-        super
-      end
     end
   end
 end

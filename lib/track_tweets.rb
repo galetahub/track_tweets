@@ -2,11 +2,14 @@ require 'active_support'
 require 'mongo_mapper'
 require 'logger'
 require 'yaml'
+require 'multi_json'
+require 'json'
 
 module TrackTweets
   autoload :API, 'track_tweets/api'
   
   module Models
+    autoload :Base, 'track_tweets/models/base'
     autoload :Group, 'track_tweets/models/group'
   end
   
@@ -30,5 +33,7 @@ module TrackTweets
       config = YAML.load( File.read(config_file) )
       ::MongoMapper.setup(config, ENV['RACK_ENV'], :logger => TrackTweets.logger)
     end
+    
+    ::MultiJson.engine = :json_gem
   end
 end
