@@ -1,4 +1,5 @@
 require ::File.expand_path('../config/environment',  __FILE__)
+require "rack/contrib"
 
 use Rack::CommonLogger
 use Rack::ShowExceptions

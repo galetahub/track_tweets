@@ -9,13 +9,12 @@ ENV['TMPDIR'] ||= File.expand_path('../../tmp', __FILE__)
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, ENV['RACK_ENV']) if defined?(Bundler)
 
-if ENV['RACK_ENV'] == 'development'
-  log = File.new( File.expand_path('../../log/development.log', __FILE__), "a")
+if ENV['RACK_ENV'] == 'production'
+  log = File.new( File.expand_path('../../log/production.log', __FILE__), "a")
   STDOUT.reopen(log)
   STDERR.reopen(log)
 end
 
-require "rack/contrib"
 require "track_tweets"
 
 # Initialize the track_tweets API
