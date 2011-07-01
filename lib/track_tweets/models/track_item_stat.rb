@@ -8,13 +8,13 @@ module TrackTweets
       key :users_count, Integer
       key :retweets_count, Integer
       key :processed_jobs_count, Integer
-      key :track_item_id, Integer
       timestamps!
       
       # Validations
       validates_presence_of :tweets_count, :track_item_id
       
-      belongs_to :track_item
+      belongs_to :track_item, :class_name => 'TrackTweets::Models::TrackItem'
+      belongs_to :stat_job, :class_name => 'TrackTweets::Models::StatJob'
       
       attr_accessible :tweets_count, :users_count, :retweets_count, :processed_jobs_count
     end
