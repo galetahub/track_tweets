@@ -19,17 +19,19 @@ module TrackTweets
     autoload :StatJob, 'track_tweets/models/stat_job'
   end
   
+  ACTIVE = 1
+  STOPPED = 2
+  BANNED = 3
+  
   #
   # TrackTweets.logger.info 'Demo convert'
   #
   def self.logger
-    @logger ||= begin
-      logfile = File.open(File.expand_path('../../log/application.log', __FILE__), 'w')
-      logfile.sync = true
-      Logger.new(logfile)
-    end
-    
-    @logger
+    @logger ||= create_logger('application')
+  end
+  
+  def self.logger_mongodb
+    @logger_mongodb ||= create_logger('mongodb')
   end
   
   def self.initialize!
@@ -37,9 +39,17 @@ module TrackTweets
     
     if File.exists?(config_file)
       config = YAML.load( File.read(config_file) )
-      ::MongoMapper.setup(config, ENV['RACK_ENV'], :logger => TrackTweets.logger)
+      ::MongoMapper.setup(config, ENV['RACK_ENV'], :logger => TrackTweets.logger_mongodb)
     end
     
     ::MultiJson.engine = :json_gem
   end
+  
+  protected
+  
+    def self.create_logger(filename)
+      logfile = File.open(File.expand_path("../../log/#{filename}.log", __FILE__), 'w')
+      logfile.sync = true
+      Logger.new(logfile)
+    end
 end

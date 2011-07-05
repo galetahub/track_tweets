@@ -6,16 +6,30 @@ module TrackTweets
       
       # Columns
       key :invoke_at, Time
-      key :completed_in, Float
-      key :parent_id, ObjectId
-      key :status, Integer, :default => 1
+      key :status, Integer, :default => TrackTweets::Models::TrackJob::ACTIVE
       timestamps!
       
-      belongs_to :track_item, :class_name => 'TrackTweets::Models::TrackItem'
-      belongs_to :parent, :class_name => 'TrackTweets::Models::StatJob'
-      many :track_item_stats, :class_name => 'TrackTweets::Models::TrackItemStat'
+      scope :active, where(:status => TrackTweets::Models::TrackJob::ACTIVE)
       
-      attr_accessible :invoke_at, :completed_in, :max_id, :since_id
+      belongs_to :track_item, :class_name => 'TrackTweets::Models::TrackItem'
+      
+      attr_accessible :invoke_at, :track_item
+      
+      def start
+        tweets = track_item.tweets
+        
+        track_item.track_item_stats.create(:tweets_count => tweets.count, 
+                                           :users_count => tweets.group_by('from_user_id').count, 
+                                           :retweets_count => 0, 
+                                           :processed_jobs_count => 0)
+                                           
+        track_item.tweets.destroy_all
+                                           
+        self.status = TrackTweets::Models::TrackJob::DONE
+        save
+                                           
+        track_item.stat_jobs.create(:invoke_at => Time.now + track_item.group.timeout)
+      end
     end
   end
 end

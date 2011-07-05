@@ -23,11 +23,15 @@ module TrackTweets
       
       after_create :create_jobs
       
+      def active?
+        self.state == TrackTweets::ACTIVE
+      end
+      
       private 
         
         def create_jobs
-          TrackJob.create(:invoke_at => Time.now + group.delay)
-          StatJob.create(:invoke_at => Time.now + group.timeout)
+          track_jobs.create(:invoke_at => Time.now + group.delay)
+          stat_jobs.create(:invoke_at => Time.now + group.timeout)
         end
     end
   end

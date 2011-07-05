@@ -14,9 +14,8 @@ module TrackTweets
       validates_presence_of :tweets_count, :track_item_id
       
       belongs_to :track_item, :class_name => 'TrackTweets::Models::TrackItem'
-      belongs_to :stat_job, :class_name => 'TrackTweets::Models::StatJob'
       
-      attr_accessible :tweets_count, :users_count, :retweets_count, :processed_jobs_count
+      attr_accessible :tweets_count, :users_count, :retweets_count, :processed_jobs_count, :track_item
     end
   end
 end
