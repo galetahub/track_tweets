@@ -17,9 +17,13 @@ module TrackTweets
       
       def start
         tweets = track_item.tweets
+        uniq_tweets = TrackTweets::Models::Tweet.count_by(:from_user_id, :query => {:track_item_id => track_item.id}).find() 
+        
+        #puts tweets.group_by{|t| t.from_user_id}.count
+        #puts uniq_tweets.count
         
         track_item.track_item_stats.create(:tweets_count => tweets.count, 
-                                           :users_count => tweets.group_by('from_user_id').count, 
+                                           :users_count => uniq_tweets.count, 
                                            :retweets_count => 0, 
                                            :processed_jobs_count => 0)
                                            

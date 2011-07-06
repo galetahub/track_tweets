@@ -19,8 +19,14 @@ module TrackTweets
       
       attr_accessible :id_str, :from_user_id, :to_user_id, :from_user, :track_item
       
-      def self.group_by(column, options = {}, function = {})
-        self.collection.group(column, nil, options, function, true)
+      def self.count_by(column, options = {})
+        map_function = "function() { emit( this.#{column}, 1); }"
+
+        reduce_function = %Q( function(key, values) { 
+          return true;
+        }) 
+        
+        collection.map_reduce(map_function, reduce_function, options)
       end
     end
   end
