@@ -27,11 +27,25 @@ module TrackTweets
         self.state == TrackTweets::ACTIVE
       end
       
+      def tweets_count
+        calc_sum(:tweets_count)
+      end
+      
+      def users_count
+        calc_sum(:users_count)
+      end
+      
       private 
         
         def create_jobs
           track_jobs.create(:invoke_at => Time.now + group.delay)
           stat_jobs.create(:invoke_at => Time.now + group.timeout)
+        end
+        
+        def calc_sum(column)
+          #count = TrackTweets::Models::TrackItemStat.sum_count_by(column, :query => {:track_item_id => self.id}).find
+          #count.each {|c| puts c['value']}
+          track_item_stats.fields(column).all.map{|t| t.read_attribute(column)}.sum
         end
     end
   end

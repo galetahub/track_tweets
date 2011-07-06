@@ -22,6 +22,8 @@ namespace :checker do
   
   task :temp do
     item = TrackTweets::Models::TrackItem.first 
-    item.stat_jobs.create(:invoke_at => Time.now + item.group.timeout)
+    puts item.tweets_count
+    puts item.users_count
   end
+  
 end
