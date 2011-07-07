@@ -22,8 +22,8 @@ namespace :checker do
   
   task :temp do
     item = TrackTweets::Models::TrackItem.first 
-    puts item.tweets_count
-    puts item.users_count
+     puts item.tweets_count
+     puts item.users_count
   end
   
 end
