@@ -27,6 +27,10 @@ module TrackTweets
         self.state == TrackTweets::ACTIVE
       end
       
+      def all_count
+        [tweets_count, users_count]
+      end
+      
       def tweets_count
         calc_sum(:tweets_count)
       end
@@ -43,7 +47,7 @@ module TrackTweets
         end
         
         def calc_sum(column)
-          count = TrackTweets::Models::TrackItemStat.sum_count_by(column, :query => {:track_item_id => self.id}).find
+          count = TrackItemStat.sum_count_by(column, :query => {:track_item_id => self.id}).find
           #count.each {|c| puts c.inspect}
           count.first['value']['sum'].to_i
           #track_item_stats.fields(column).all.map{|t| t.read_attribute(column)}.sum

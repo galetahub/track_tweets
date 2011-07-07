@@ -1,4 +1,4 @@
-#require ''
+#require 'curb'
 
 namespace :checker do
   desc "track jobs"
@@ -21,9 +21,22 @@ namespace :checker do
   end
   
   task :temp do
-    item = TrackTweets::Models::TrackItem.first 
-     puts item.tweets_count
-     puts item.users_count
+    url = "http://localhost:3000/api/v1/groups"
+    
+    http = Curl::Easy.new(url)
+    http.http_auth_types = :basic
+    http.username = 'demo'
+    http.password = ''
+    
+    http.perform
+    puts http.body_str
+    
+    # post
+    http.http_post("http://localhost:3000/api/v1/groups", 
+                          Curl::PostField.content('group[name]', 'Pepsi'),
+                          Curl::PostField.content('group[timeout]', '120'),
+                          Curl::PostField.content('group[delay]', '10'))
+    puts http.body_str
   end
   
 end

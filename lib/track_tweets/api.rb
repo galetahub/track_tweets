@@ -54,11 +54,28 @@ module TrackTweets
     end
     
     resources :track_items do
-      get '/:group_id' do
+      helpers do
+        def group
+          @group ||= Models::Group.find(params[:group_id])
+        end
+        
+        def track_item
+          @track_item ||= Models::TrackItem.find(params[:id])
+        end
+      end
+      
+      get ':group_id' do
+        render group.track_items
+      end
+      
+      get ':group_id/:id/show' do
+        render track_item
+      end
+      
+      get ':group_id/:id/tweets' do
+        render track_item.all_count
       end
     end
     
-    resources :track_item_stats do
-    end
   end
 end

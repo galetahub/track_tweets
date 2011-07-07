@@ -27,7 +27,7 @@ module TrackTweets
       
           
       def start
-        response = TrackTweets::Checker.get(:q => track_item.query, :rpp => 100, :page => self.page, :max_id => self.max_id, :since_id => self.since_id)
+        response = Checker.get(:q => track_item.query, :rpp => 100, :page => self.page, :max_id => self.max_id, :since_id => self.since_id)
         
         # create tweets
         response[:results].each do |tweet|

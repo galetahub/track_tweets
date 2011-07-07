@@ -18,3 +18,7 @@ Tritter search API don't index old tweets, but we neet it to get statisticts, so
   
   rackup -p3000 RACK_ENV=production
   
+== Tasks
+
+  rake checker:track_jobs
+  rake checker:stats_jobs

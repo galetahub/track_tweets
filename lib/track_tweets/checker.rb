@@ -15,9 +15,7 @@ module TrackTweets
         
         TrackTweets.logger.info "Send request: #{url}"
         
-        begin
-          http = Curl::Easy.new(url)
-          
+        begin         
           http = Curl::Easy.new(url) do |curl| 
             curl.headers["User-Agent"] = "track_tweets-#{VERSION}"
           end
@@ -34,11 +32,11 @@ module TrackTweets
       end
       
       def track_jobs     
-        start_jobs(TrackTweets::Models::TrackJob.active.all, :delay)
+        start_jobs(Models::TrackJob.active.all, :delay)
       end
       
       def stats_jobs
-        start_jobs(TrackTweets::Models::StatJob.active.all, :timeout)
+        start_jobs(Models::StatJob.active.all, :timeout)
       end
       
       private 
