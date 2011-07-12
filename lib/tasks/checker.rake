@@ -1,42 +1,11 @@
-#require 'curb'
-
 namespace :checker do
-  desc "track jobs"
+  desc "Start tracking tweets jobs"
   task :track_jobs do
     TrackTweets::Checker.track_jobs
   end
   
-  desc "stats jobs"
+  desc "Start statisticts jobs"
   task :stats_jobs do
     TrackTweets::Checker.stats_jobs
   end
-  
-  task :temp_data do
-    TrackTweets::Models::Group.destroy_all
-    TrackTweets::Models::TrackItem.destroy_all
-    
-    group = TrackTweets::Models::Group.create(:name => 'McDonalds', :timeout => 60, :delay => 20)
-    
-    item = group.track_items.create(:query => 'udp')
-  end
-  
-  task :temp do
-    url = "http://localhost:3000/api/v1/groups"
-    
-    http = Curl::Easy.new(url)
-    http.http_auth_types = :basic
-    http.username = 'demo'
-    http.password = ''
-    
-    http.perform
-    puts http.body_str
-    
-    # post
-    http.http_post("http://localhost:3000/api/v1/groups", 
-                          Curl::PostField.content('group[name]', 'Pepsi'),
-                          Curl::PostField.content('group[timeout]', '120'),
-                          Curl::PostField.content('group[delay]', '10'))
-    puts http.body_str
-  end
-  
 end
