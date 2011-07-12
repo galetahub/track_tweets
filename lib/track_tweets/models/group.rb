@@ -5,7 +5,6 @@ module TrackTweets
       
       # Columns
       key :name, String
-      key :public_token, String
       key :callback_url, String
       key :timeout, Integer, :default => 60
       key :delay, Integer, :default => 30

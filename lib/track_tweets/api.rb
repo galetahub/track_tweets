@@ -75,7 +75,19 @@ module TrackTweets
       get ':group_id/:id/tweets' do
         render track_item.all_count
       end
+      
+      post ':group_id' do
+        render group.track_items.create(params[:track_item])
+      end
+      
+      put ':id' do
+        render track_item.update_attributes(params[:track_item])
+      end
+      
+      delete ':id' do
+        track_item.destroy
+        render track_item
+      end
     end
-    
   end
 end

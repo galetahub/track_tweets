@@ -10,13 +10,17 @@ Tritter search API don't index old tweets, but we neet it to get statisticts, so
 
   http://www.mongodb.org/display/DOCS/Ubuntu+and+Debian+packages
 
+Start mongodb as service  
+
+  sudo service mongodb start
+
 === Curl
 
   sudo apt-get install libcurl3 libcurl3-gnutls libcurl4-openssl-dev
 
 == Run
   
-  rackup -p3000 RACK_ENV=production
+  RACK_ENV=production rackup -p 3002
   
 == Tasks
 
