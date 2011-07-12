@@ -1,33 +1,22 @@
 module TrackTweets
   module Models
     class TrackJob
-      include Base
-      plugin MongoMapper::Plugins::IdentityMap
+      include JobBase
       
       # Columns
-      key :invoke_at, Time
       key :completed_in, Float
       key :max_id, Integer
       key :since_id, Integer
       key :parent_id, ObjectId
-      key :status, Integer, :default => ACTIVE
       key :page, Integer, :default => 1
-      timestamps!
       
-      belongs_to :track_item, :class_name => 'TrackTweets::Models::TrackItem'
       belongs_to :parent, :class_name => 'TrackTweets::Models::TrackJob'
       many :tweets, :class_name => 'TrackTweets::Models::Tweet'
       
-      attr_accessible :invoke_at, :completed_in, :max_id, :since_id, :page, :track_item
-      
-      ACTIVE = 1
-      DONE = 2
-      
-      scope :active, where(:status => ACTIVE)
-      
+      attr_accessible :completed_in, :max_id, :since_id, :page
           
       def start
-        response = Checker.get(:q => track_item.query, :rpp => 100, :page => self.page, :max_id => self.max_id, :since_id => self.since_id)
+        response = Checker.get(params)
         
         # create tweets
         response[:results].each do |tweet|
@@ -59,6 +48,12 @@ module TrackTweets
         self.status = DONE
         save
       end
+      
+      protected
+      
+        def params
+          { :q => track_item.query, :rpp => 100, :page => self.page, :max_id => self.max_id, :since_id => self.since_id }
+        end
       
 =begin      
  results - [{"created_at"=>"Wed, 29 Jun 2011 12:14:34 +0000", 

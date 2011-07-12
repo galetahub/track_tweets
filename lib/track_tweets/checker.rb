@@ -21,9 +21,6 @@ module TrackTweets
           end
           
           http.perform
-          
-          TrackTweets.logger.info "Successfully get response: #{url}"
-          
           parse(http.body_str)
         rescue Exception => e
           TrackTweets.logger.info "Error to try request: #{e.message}"
@@ -43,12 +40,13 @@ module TrackTweets
         
         def parse(data)
           json = JSON.parse(data)
-          json.symbolize_keys! unless json.blank?
+          json.blank? ? nil : json.symbolize_keys
         end
         
+        # TODO: Do it by query, pass scope
         def start_jobs(jobs, increment_column)
           jobs.each do |job|
-            job.start if job.track_item.active? && (job.invoke_at + job.track_item.group.read_attribute(increment_column)) <= Time.now
+            job.start if job.ready?(increment_column)
           end
         end
     end

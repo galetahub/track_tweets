@@ -1,19 +1,7 @@
 module TrackTweets
   module Models
     class StatJob
-      include Base
-      plugin MongoMapper::Plugins::IdentityMap
-      
-      # Columns
-      key :invoke_at, Time
-      key :status, Integer, :default => TrackJob::ACTIVE
-      timestamps!
-      
-      scope :active, where(:status => TrackJob::ACTIVE)
-      
-      belongs_to :track_item, :class_name => 'TrackTweets::Models::TrackItem'
-      
-      attr_accessible :invoke_at, :track_item
+      include JobBase
       
       def start
         tweets = track_item.tweets
@@ -29,7 +17,7 @@ module TrackTweets
                                            
         track_item.tweets.destroy_all
                                            
-        self.status = TrackJob::DONE
+        self.status = DONE
         save
                                            
         track_item.stat_jobs.create(:invoke_at => Time.now + track_item.group.timeout)
