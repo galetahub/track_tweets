@@ -104,7 +104,7 @@ module TrackTweets
         end
         
         def track_item
-          @track_item ||= Models::TrackItem.find(params[:id])
+          @track_item ||= group.track_items.find(params[:id])
         end
       end
       

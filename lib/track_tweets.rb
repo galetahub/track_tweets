@@ -14,8 +14,9 @@ module TrackTweets
     autoload :Group, 'track_tweets/models/group'
     autoload :TrackItem, 'track_tweets/models/track_item'
     autoload :TrackItemStat, 'track_tweets/models/track_item_stat'
-    autoload :TrackJob, 'track_tweets/models/track_job'
     autoload :Tweet, 'track_tweets/models/tweet'
+    autoload :JobBase, 'track_tweets/models/job_base'
+    autoload :TrackJob, 'track_tweets/models/track_job'
     autoload :StatJob, 'track_tweets/models/stat_job'
   end
   

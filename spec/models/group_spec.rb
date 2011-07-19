@@ -4,7 +4,7 @@ describe TrackTweets::Models::Group do
   include GroupHelper
   
   before(:each) do
-    @group = create_group
+    @group = TrackTweets::Models::Group.new(group_attributes)
   end
   
   it "should create a new instance given valid attributes" do

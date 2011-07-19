@@ -1,6 +1,9 @@
 module TrackTweets
   module Models
     module JobBase
+      ACTIVE = 1
+      DONE = 2
+            
       def self.included(base)
         base.send :include, InstanceMethods
         base.send :extend, ClassMethods
@@ -11,9 +14,6 @@ module TrackTweets
           base.class_eval do
             include TrackTweets::Models::Base
             plugin MongoMapper::Plugins::IdentityMap
-            
-            ACTIVE = 1
-            DONE = 2
             
             # Columns
             key :invoke_at, Time

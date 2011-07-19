@@ -12,6 +12,7 @@ module TrackTweets
       # Validations
       validates_presence_of :query
       validates_uniqueness_of :query
+      validates_numericality_of :track_type_id, :only_integer => true
       
       many :tweets, :class_name => 'TrackTweets::Models::Tweet'
       many :track_jobs, :class_name => 'TrackTweets::Models::TrackJob'
