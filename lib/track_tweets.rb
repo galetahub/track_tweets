@@ -27,7 +27,7 @@ module TrackTweets
   # TrackTweets.logger.info 'Demo convert'
   #
   def self.logger
-    @logger ||= create_logger('application')
+    @logger ||= create_logger(ENV['RACK_ENV'])
   end
   
   def self.logger_mongodb
@@ -43,12 +43,13 @@ module TrackTweets
     end
     
     ::MultiJson.engine = :json_gem
+    ActiveSupport::XmlMini.backend = 'Nokogiri'
   end
   
   protected
   
     def self.create_logger(filename)
-      logfile = File.open(File.expand_path("../../log/#{filename}.log", __FILE__), 'w')
+      logfile = File.open(File.expand_path("../../log/#{filename}.log", __FILE__), 'a')
       logfile.sync = true
       Logger.new(logfile)
     end
