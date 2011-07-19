@@ -4,10 +4,10 @@ module TrackTweets
       include Base
       
       # Columns
-      key :tweets_count, Integer
-      key :users_count, Integer
-      key :retweets_count, Integer
-      key :processed_jobs_count, Integer
+      key :tweets_count, Integer, :default => 0
+      key :users_count, Integer, :default => 0
+      key :retweets_count, Integer, :default => 0
+      key :processed_jobs_count, Integer, :default => 0
       timestamps!
       
       # Validations

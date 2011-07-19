@@ -53,26 +53,12 @@ describe TrackTweets::API do
         last_response.body.should include(@track_item.id.to_s)
       end
       
-      it "should render track_item tweets statisticts" do
-        get "/api/v1/groups/#{@group.id}/track_items/#{@track_item.id}/tweets.xml"
-        
-        last_response.status.should == 200
-        last_response.body.should == ''
-      end
-      
       it "should render one track_item without group" do
         get "/api/v1/track_items/#{@track_item.id}.xml"
         
         last_response.status.should == 200
         last_response.body.should include(@track_item.id.to_s)
-      end
-      
-      it "should render track_item tweets statisticts without group" do
-        get "/api/v1/track_items/#{@track_item.id}/tweets.xml"
-        
-        last_response.status.should == 200
-        last_response.body.should == ''
-      end
+      end      
       
       it "should update track_item" do
         put "/api/v1/track_items/#{@track_item.id}.xml", :track_item => { :query => 'superpuper' }
@@ -86,6 +72,35 @@ describe TrackTweets::API do
         lambda {
           delete "/api/v1/track_items/#{@track_item.id}.xml"
         }.should change { @group.track_items.count }.by(-1)
+      end
+      
+      context "tweets statisticts" do
+        before(:each) do
+          (1..5).to_a.each do |num|
+            TrackTweets::Models::TrackItemStat.create(
+              :tweets_count => num + 5, 
+              :users_count => num + 1, 
+              :retweets_count => num + 2, 
+              :processed_jobs_count => num + 4, 
+              :track_item => @track_item)
+          end
+        end
+        
+        it "should render track_item tweets statisticts" do
+          get "/api/v1/groups/#{@group.id}/track_items/#{@track_item.id}/tweets.xml"
+          
+          last_response.status.should == 200
+          # TODO: check statisticts
+          #last_response.body.should == ''
+        end
+        
+        it "should render track_item tweets statisticts without group" do
+          get "/api/v1/track_items/#{@track_item.id}/tweets.xml"
+          
+          last_response.status.should == 200
+          # TODO: check statisticts
+          last_response.body.should == ''
+        end
       end
     end
   end
