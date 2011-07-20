@@ -90,16 +90,18 @@ describe TrackTweets::API do
           get "/api/v1/groups/#{@group.id}/track_items/#{@track_item.id}/tweets.xml"
           
           last_response.status.should == 200
-          # TODO: check statisticts
-          #last_response.body.should == ''
+          last_response.body.should include('<count type="float">40.0</count>')
+          last_response.body.should include('<count type="float">20.0</count>')
         end
         
         it "should render track_item tweets statisticts without group" do
           get "/api/v1/track_items/#{@track_item.id}/tweets.xml"
           
           last_response.status.should == 200
-          # TODO: check statisticts
-          last_response.body.should == ''
+          last_response.body.should include("<id>#{@track_item.id}</id>")
+          last_response.body.should include("<query>#{@track_item.query}</query>")
+          last_response.body.should include('<count type="float">40.0</count>')
+          last_response.body.should include('<count type="float">20.0</count>')
         end
       end
     end

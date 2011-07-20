@@ -18,18 +18,18 @@ module TrackTweets
       attr_accessible :tweets_count, :users_count, :retweets_count, :processed_jobs_count, :track_item
       
       def self.sum_count_by(column, options = {})
-        map_function = "function() { emit( this.track_item, {count: 1, sum: this.#{column}}); }"
+        map_function = "function() { emit( this.track_item_id, {rows: 1, count: this.#{column}}); }"
 
         reduce_function = "function(key, values) { 
-          var result = {count: 0, sum: 0};
+          var result = {rows: 0, count: 0};
 
-          values.forEach(function(value) {
-            result.count += value.count;
-            result.sum += value.sum;
-          });
+          for(var i = 0; i < values.length; i++) {
+            result.rows += values[i].rows;
+            result.count += values[i].count;
+          }
 
           return result;
-        }" 
+        }"
         
         collection.map_reduce(map_function, reduce_function, options)
       end

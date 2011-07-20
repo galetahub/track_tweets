@@ -29,7 +29,7 @@ module TrackTweets
       end
       
       def all_count
-        [tweets_count, users_count]
+        { :id => id, :query => query, :tweets => tweets_count, :users => users_count }
       end
       
       def tweets_count
@@ -49,10 +49,10 @@ module TrackTweets
         
         def calc_sum(column)
           unless TrackItemStat.count.zero?
-            #count.each {|c| puts c.inspect}
-            #track_item_stats.fields(column).all.map{|t| t.read_attribute(column)}.sum
-            
-            count = TrackItemStat.sum_count_by(column, :query => {:track_item_id => self.id}).find
+            count = TrackItemStat.sum_count_by(column, 
+              :query => {:track_item_id => self.id}, 
+              :out => "sum_track_item_#{column}").find
+              
             count.first['value']
           end
         end

@@ -117,7 +117,7 @@ module TrackTweets
       end
       
       get ':group_id/track_items/:id/tweets' do
-        render track_item.all_count
+        render track_item.all_count, :root => "track_item"
       end
       
       post ':group_id/track_items' do
@@ -137,7 +137,7 @@ module TrackTweets
       end
       
       get ':id/tweets' do
-        render track_item.all_count
+        render track_item.all_count, :root => "track_item"
       end
       
       put ':id' do
