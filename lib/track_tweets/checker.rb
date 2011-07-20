@@ -17,7 +17,7 @@ module TrackTweets
         
         begin         
           http = Curl::Easy.new(url) do |curl| 
-            curl.headers["User-Agent"] = "track_tweets-#{VERSION}"
+            curl.headers["User-Agent"] = "tracktweets-bot-#{VERSION}"
           end
           
           http.perform
