@@ -28,4 +28,32 @@ describe TrackTweets::Models::TrackItem do
       @track_item.should_not be_valid
     end
   end
+  
+  context "after_create" do
+    before(:each) do
+      @track_item.save
+    end
+    
+    it "should set active status" do
+      @track_item.should be_active
+    end
+    
+    it "should create track_job" do
+      @track_item.track_jobs.count.should == 1
+    end
+    
+    it "should create stat_job" do
+      @track_item.stat_jobs.count.should == 1
+    end
+    
+    it "should run new track_job" do
+      track_job = @track_item.track_jobs.first
+      track_job.ready?(:delay).should be_false
+      
+      track_job.invoke_at = 1.day.ago
+      track_job.save
+      
+      track_job.ready?(:delay).should be_true
+    end
+  end
 end
