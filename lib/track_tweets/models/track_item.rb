@@ -6,7 +6,7 @@ module TrackTweets
       # Columns
       key :query, String
       key :track_type_id, Integer, :default => 1
-      key :state, Integer, :default => 1
+      key :state, Integer, :default => TrackTweets::ACTIVE
       timestamps!
       
       # Validations

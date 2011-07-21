@@ -55,3 +55,5 @@ module TrackTweets
       Logger.new(logfile)
     end
 end
+
+require 'track_tweets/version'

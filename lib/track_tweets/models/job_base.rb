@@ -32,7 +32,8 @@ module TrackTweets
       module InstanceMethods
         
         def ready?(increment_column)
-          track_item.active? && (invoke_at + track_item.group.read_attribute(increment_column)) <= Time.now
+          run_at = invoke_at + track_item.group.read_attribute(increment_column)
+          track_item.active? && (run_at <= Time.now)
         end
         
         def start
