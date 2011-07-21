@@ -36,7 +36,7 @@ module TrackTweets
     end
     
     http_basic do |username, password|
-      username == "demo"
+      username == "aimbulance" && password == "F>bxHe(7Zvod@2'+HuQR"
     end
     
     helpers do
