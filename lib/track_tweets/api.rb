@@ -156,5 +156,15 @@ module TrackTweets
         render track_item
       end
     end
+    
+    resources :jobs do
+      get 'tracks' do
+        render Models::TrackJob.active.all
+      end
+      
+      get 'stats' do
+        render Models::StatJob.active.all
+      end
+    end
   end
 end
