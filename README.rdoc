@@ -26,3 +26,10 @@ Start mongodb as service
 
   rake checker:track_jobs
   rake checker:stats_jobs
+
+== Cron
+
+  */30   *   *   *   *   cd /var/www/track_tweets && RAILS_ENV=production bundle exec rake checker:track_jobs >> /var/www/track_tweets/log/cron.log 2>&1
+  0   *  *   *   *   cd /var/www/track_tweets && RAILS_ENV=production bundle exec rake checker:stats_jobs >> /var/www/track_tweets/log/cron.log 2>&1
+
+Copyright (c) 2011 Aimbulance, released under the MIT license
