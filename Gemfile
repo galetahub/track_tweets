@@ -12,6 +12,7 @@ gem "rack-contrib", "~> 1.1.0"
 gem "curb", "~> 0.7.15"
 gem "rake", "~> 0.9.2"
 gem "nokogiri", "~> 1.5.0"
+gem "racksh", "~> 0.9.8"
 
 group :development do
   gem "ruby-prof", "~> 0.10.7"
