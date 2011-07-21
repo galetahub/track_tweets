@@ -43,8 +43,8 @@ module TrackTweets
       private 
         
         def create_jobs
-          track_jobs.create(:invoke_at => Time.now + group.delay)
-          stat_jobs.create(:invoke_at => Time.now + group.timeout)
+          track_jobs.create(:invoke_at => Time.now.utc + group.delay)
+          stat_jobs.create(:invoke_at => Time.now.utc + group.timeout)
         end
         
         def calc_sum(column)

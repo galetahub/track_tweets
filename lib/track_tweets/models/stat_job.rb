@@ -20,7 +20,7 @@ module TrackTweets
         self.status = DONE
         save
                                            
-        track_item.stat_jobs.create(:invoke_at => Time.now + track_item.group.timeout)
+        track_item.stat_jobs.create(:invoke_at => Time.now.utc + track_item.group.timeout)
       end
     end
   end

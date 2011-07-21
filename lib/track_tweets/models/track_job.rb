@@ -29,7 +29,7 @@ module TrackTweets
         end
         
         # create next job
-        job = self.class.new(:invoke_at => Time.now + track_item.group.delay, :track_item => track_item)
+        job = self.class.new(:invoke_at => Time.now.utc + track_item.group.delay, :track_item => track_item)
         
         unless response[:next_page].blank?
           job.parent =  self
