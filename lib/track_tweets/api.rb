@@ -36,11 +36,17 @@ module TrackTweets
     end
     
     http_basic do |username, password|
-      username == "aimbulance" && password == "F>bxHe(7Zvod@2'+HuQR"
+      if ENV['RACK_ENV'] == 'test'
+        username == "demo"
+      else
+        username == "aimbulance" && password == "F>bxHe(7Zvod@2'+HuQR"
+      end
     end
     
     helpers do
       def render(collection, options = {})
+        return '' if collection.nil?
+        
         format = (params[:format] || API.settings[:default_format]).to_s.downcase
         method = request.request_method.to_s.upcase
         
@@ -113,7 +119,7 @@ module TrackTweets
       end
       
       get ':group_id/track_items/:id' do
-        render track_item
+        render track_item, :include => [:track_jobs]
       end
       
       get ':group_id/track_items/:id/tweets' do
@@ -133,7 +139,7 @@ module TrackTweets
       end
       
       get ':id' do
-        render track_item
+        render track_item, :include => [:track_jobs]
       end
       
       get ':id/tweets' do
