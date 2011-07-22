@@ -8,12 +8,15 @@ module TrackTweets
       end
       
       module ClassMethods
+        def distinct(*args)
+          collection.distinct(*args)
+        end
       end
       
       module InstanceMethods
         
         def to_xml(options = {}, &block)
-          options[:root] = self.class.name.to_s.downcase.split('::').last
+          options[:root] = Utils.singularize(self.class)
           super
         end
       end

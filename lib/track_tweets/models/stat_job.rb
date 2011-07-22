@@ -4,14 +4,16 @@ module TrackTweets
       include JobBase
       
       def start
-        tweets = track_item.tweets
-        uniq_tweets = Tweet.count_by(:from_user_id, :query => {:track_item_id => track_item.id}).find() 
+        tweets_count = track_item.tweets.count
+        users_count = Tweet.distinct(:from_user_id, {:track_item_id => track_item.id}).size
         
-        #puts tweets.group_by{|t| t.from_user_id}.count
-        #puts uniq_tweets.count
+        # TODO: do it by map_reduce
+        #users_count = tweets_count.zero? ? 0 : Tweet.count_by(:from_user_id
+        #  :query => {:track_item_id => track_item.id}
+        #)
         
-        track_item.track_item_stats.create(:tweets_count => tweets.count, 
-                                           :users_count => uniq_tweets.count, 
+        track_item.track_item_stats.create(:tweets_count => tweets_count, 
+                                           :users_count => users_count, 
                                            :retweets_count => 0, 
                                            :processed_jobs_count => 0)
                                            

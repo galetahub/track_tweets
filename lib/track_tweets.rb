@@ -8,6 +8,7 @@ require 'json'
 module TrackTweets
   autoload :API, 'track_tweets/api'
   autoload :Checker, 'track_tweets/checker'
+  autoload :Utils, 'track_tweets/utils'
   
   module Models
     autoload :Base, 'track_tweets/models/base'

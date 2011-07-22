@@ -18,6 +18,7 @@ module TrackTweets
       attr_accessible :tweets_count, :users_count, :retweets_count, :processed_jobs_count, :track_item
       
       def self.sum_count_by(column, options = {})
+        options = { :out => "sum_track_item_#{column}" }.merge(options)
         map_function = "function() { emit( this.track_item_id, {rows: 1, count: this.#{column}}); }"
 
         reduce_function = "function(key, values) { 

@@ -20,13 +20,22 @@ module TrackTweets
       attr_accessible :id_str, :from_user_id, :to_user_id, :from_user, :track_item
       
       def self.count_by(column, options = {})
-        map_function = "function() { emit( this.#{column}, 1); }"
-
-        reduce_function = %Q( function(key, values) { 
-          return true;
-        }) 
+        options = { :out => "count_tweets_#{column}" }.merge(options)
         
-        collection.map_reduce(map_function, reduce_function, options)
+        map_function = "function() { emit( this.#{column}, {count: 1}); }"
+
+        reduce_function = "function(key, values) { 
+          var count = 0;
+
+          values.forEach(function(v) {
+            count += v['count'];
+          });
+
+          return {count: count};
+        }"
+        
+        count = collection.map_reduce(map_function, reduce_function, options).find
+        count.first['value']['count']
       end
     end
   end

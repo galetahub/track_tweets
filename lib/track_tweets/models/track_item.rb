@@ -49,9 +49,7 @@ module TrackTweets
         
         def calc_sum(column)
           unless TrackItemStat.count.zero?
-            count = TrackItemStat.sum_count_by(column, 
-              :query => {:track_item_id => self.id}, 
-              :out => "sum_track_item_#{column}").find
+            count = TrackItemStat.sum_count_by(column, :query => {:track_item_id => self.id}).find
               
             count.first['value']
           end
