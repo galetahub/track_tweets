@@ -1,10 +1,14 @@
 module GroupHelper
-  def group_attributes
-    { :name => "Test group", :timeout => 120, :delay => 30, :callback_url => nil }
+  def group_attributes(name="Test group")
+    { :name => name, :timeout => 120, :delay => 30, :callback_url => nil }
   end
   
   def create_group
     TrackTweets::Models::Group.create(group_attributes)
+  end
+  
+  def create_group_with_name(name)
+    TrackTweets::Models::Group.create(group_attributes(name))
   end
   
   def track_item_attributes(options = {})
