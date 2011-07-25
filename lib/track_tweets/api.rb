@@ -146,6 +146,10 @@ module TrackTweets
         render track_item.all_count, :root => "track_item"
       end
       
+      get ':id/stats' do
+        render track_item.track_item_stats
+      end
+      
       put ':id' do
         track_item.update_attributes(params[:track_item])
         render track_item

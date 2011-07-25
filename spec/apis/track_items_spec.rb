@@ -86,6 +86,12 @@ describe TrackTweets::API do
           end
         end
         
+        it 'should render track_item_stats' do
+          get "/api/v1/track_items/#{@track_item.id}/stats.xml"
+          last_response.status.should == 200
+          last_response.body.should == @track_item.track_item_stats.to_xml
+        end
+        
         it "should render track_item tweets statisticts" do
           get "/api/v1/groups/#{@group.id}/track_items/#{@track_item.id}/tweets.xml"
           
