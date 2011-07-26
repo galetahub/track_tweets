@@ -12,7 +12,16 @@ module GroupHelper
   end
   
   def track_item_attributes(options = {})
-    rand_string = ActiveSupport::SecureRandom.base64(15).tr('+/=', 'xyz')
-    { :query => rand_string, :track_type_id => 1 }.merge(options)
+    { :query => rand_str, :track_type_id => 1 }.merge(options)
   end
+  
+  def tweet_attributes(options = {})
+    { :id_str => rand_str, :from_user_id => 1111 }.merge(options)
+  end
+  
+  private
+  
+    def rand_str(count=15)
+      ActiveSupport::SecureRandom.base64(count).tr('+/=', 'xyz')
+    end 
 end

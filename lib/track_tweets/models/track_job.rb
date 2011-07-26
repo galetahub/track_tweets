@@ -52,7 +52,7 @@ module TrackTweets
       protected
       
         def params
-          { :q => track_item.query, :rpp => 100, :page => self.page, :max_id => self.max_id, :since_id => self.since_id }
+          { :q => track_item.query, :rpp => 100, :page => self.page, :max_id => self.max_id, :since_id => self.since_id }.delete_if {|key, value| value.blank? || value == 0 }
         end
       
 =begin      

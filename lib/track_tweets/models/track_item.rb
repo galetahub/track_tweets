@@ -40,6 +40,10 @@ module TrackTweets
         calc_sum(:users_count)
       end
       
+      def tweets_ids
+        tweets.map{|t| t.id}
+      end
+      
       private 
         
         def create_jobs
