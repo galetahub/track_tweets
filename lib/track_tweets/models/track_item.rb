@@ -22,6 +22,8 @@ module TrackTweets
       
       attr_accessible :query, :track_type_id
       
+      scope :active, where(:state => TrackTweets::ACTIVE)
+      
       after_create :create_jobs
       
       def active?

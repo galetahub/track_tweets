@@ -25,17 +25,18 @@ module TrackTweets
             attr_accessible :invoke_at, :track_item
             
             scope :active, where(:status => ACTIVE)
+            scope :can_started, active.where(:invoke_at.lte => Time.now.utc)
           end
         end
       end
       
       module InstanceMethods
         
-        def ready?(increment_column)
+        def ready?(increment_column) 
           run_at = invoke_at.utc + track_item.group.read_attribute(increment_column)
           track_item.active? && (run_at <= Time.now.utc)
         end
-        
+                
         def start
           raise "not implemented"
         end

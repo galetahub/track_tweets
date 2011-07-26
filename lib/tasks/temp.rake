@@ -26,4 +26,9 @@ namespace :temp do
                           Curl::PostField.content('group[delay]', '10'))
     puts http.body_str
   end
+  
+  task :includes do
+    jobs = TrackTweets::Models::TrackJob.can_started.where(:"track_item.state" => 1).all
+    puts jobs.inspect
+  end
 end
