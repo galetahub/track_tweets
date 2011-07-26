@@ -44,12 +44,12 @@ module TrackTweets
         tweets.map{|t| t.id}
       end
       
-      private 
-        
-        def create_jobs
-          track_jobs.create(:invoke_at => Time.now.utc + group.delay)
-          stat_jobs.create(:invoke_at => Time.now.utc + group.timeout)
-        end
+      def create_jobs
+        track_jobs.create(:invoke_at => Time.now.utc + group.delay)
+        stat_jobs.create(:invoke_at => Time.now.utc + group.timeout)
+      end
+      
+      private
         
         def calc_sum(column)
           unless TrackItemStat.count.zero?
