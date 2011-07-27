@@ -42,8 +42,8 @@ module TrackTweets
         count.first['value']['count']
       end
       
-      def self.mark_completed(ids)
-        set(ids, :state => TrackTweets::COMPLETED)
+      def self.mark_completed(track_item_id)
+        set({:track_item_id => track_item_id}, :state => TrackTweets::COMPLETED)
       end
       
       def self.by_users(track_item_id)

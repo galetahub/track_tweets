@@ -18,7 +18,7 @@ module TrackTweets
                                            :processed_jobs_count => 0)
                                            
         #track_item.tweets.destroy_all
-        Tweet.mark_completed(track_item.tweets_ids)
+        Tweet.mark_completed(track_item.id)
                                            
         self.status = DONE
         save

@@ -50,4 +50,23 @@ describe TrackTweets::Models::Tweet do
       @tweet.should be_active
     end
   end
+  
+  context "jobs" do
+    before(:each) do
+      (1..5).to_a.each do |num|
+        @track_item.tweets.create(
+          :id_str => num.to_s, 
+          :from_user_id => num + 1,
+          :to_user_id => nil,
+          :from_user => (num + 1).to_s)
+      end
+    end
+    
+    it "should set completed status" do
+      TrackTweets::Models::Tweet.mark_completed(@track_item.id)
+      
+      @track_item.tweets.completed.count.should == 5
+      @track_item.tweets.active.count.should == 0
+    end
+  end
 end

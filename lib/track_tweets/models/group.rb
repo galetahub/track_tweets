@@ -20,6 +20,10 @@ module TrackTweets
       
       attr_accessible :name, :callback_url, :timeout, :delay
       
+      def all_stats
+        track_items.map{|item| item.all_count}
+      end
+      
       private
       
         def timeout_vs_delay

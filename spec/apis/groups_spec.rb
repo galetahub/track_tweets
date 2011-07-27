@@ -52,6 +52,22 @@ describe TrackTweets::API do
         last_response.body.should include(@group.id.to_s)
       end
       
+      it "should render group stats" do
+        item = @group.track_items.create(track_item_attributes)
+        
+        (1..5).to_a.each do |num|
+          item.track_item_stats.create(:tweets_count => num + 1, :users_count => num)
+        end
+        
+        get "/api/v1/groups/#{@group.id}/stats.xml"
+        
+        last_response.status.should == 200
+        last_response.body.should include("<query>#{item.query}</query>")
+        last_response.body.should include("<id>#{item.id}</id>")
+        last_response.body.should include("<users type=\"integer\">15</users>")
+        last_response.body.should include("<tweets type=\"integer\">20</tweets>")
+      end
+      
       it "should update group" do
         put "/api/v1/groups/#{@group.id}.xml", :group => { :name => "Super group" }
         

@@ -31,7 +31,7 @@ module TrackTweets
       end
       
       def all_count
-        { :id => id, :query => query, :tweets => tweets_count, :users => users_count }
+        { :id => id, :query => query, :tweets => tweets_count["count"].to_i, :users => users_count["count"].to_i }
       end
       
       def tweets_count
@@ -40,10 +40,6 @@ module TrackTweets
       
       def users_count
         calc_sum(:users_count)
-      end
-      
-      def tweets_ids
-        tweets.map{|t| t.id}
       end
       
       def create_jobs
@@ -58,6 +54,8 @@ module TrackTweets
             count = TrackItemStat.sum_count_by(column, :query => {:track_item_id => self.id}).find
               
             count.first['value']
+          else
+            {"count" => 0, "rows" => 0}
           end
         end
     end
