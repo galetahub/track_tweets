@@ -46,8 +46,11 @@ module TrackTweets
         set({:track_item_id => track_item_id}, :state => TrackTweets::COMPLETED)
       end
       
-      def self.by_users(track_item_id)
-        distinct(:from_user_id, {:track_item_id => track_item_id, :state => TrackTweets::ACTIVE})
+      def self.by_users_count(track_item_id)
+        new_ids = distinct(:from_user_id, {:track_item_id => track_item_id, :state => TrackTweets::ACTIVE})     
+        old_ids = distinct(:from_user_id, {:track_item_id => track_item_id, :state => TrackTweets::COMPLETED})
+        
+        (new_ids - old_ids).size
       end
       
       def active?

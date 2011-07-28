@@ -60,13 +60,45 @@ describe TrackTweets::Models::Tweet do
           :to_user_id => nil,
           :from_user => (num + 1).to_s)
       end
+      
+      @track_item.tweets.create(
+          :id_str => "232", 
+          :from_user_id => 2,
+          :to_user_id => nil,
+          :from_user => "2")
     end
     
     it "should set completed status" do
       TrackTweets::Models::Tweet.mark_completed(@track_item.id)
       
-      @track_item.tweets.completed.count.should == 5
+      @track_item.tweets.completed.count.should == 6
       @track_item.tweets.active.count.should == 0
+    end
+    
+    it "should calc unique users" do
+      TrackTweets::Models::Tweet.by_users_count(@track_item.id).should == 5
+      
+      TrackTweets::Models::Tweet.mark_completed(@track_item.id)
+      
+      TrackTweets::Models::Tweet.by_users_count(@track_item.id).should == 0
+      
+      (1..5).to_a.each do |num|
+        @track_item.tweets.create(
+          :id_str => (num + 10).to_s, 
+          :from_user_id => num + 1,
+          :to_user_id => nil,
+          :from_user => (num + 1).to_s)
+      end
+      
+      TrackTweets::Models::Tweet.by_users_count(@track_item.id).should == 0
+      
+      @track_item.tweets.create(
+          :id_str => "232222", 
+          :from_user_id => 200,
+          :to_user_id => nil,
+          :from_user => "200")
+          
+      TrackTweets::Models::Tweet.by_users_count(@track_item.id).should == 1
     end
   end
 end

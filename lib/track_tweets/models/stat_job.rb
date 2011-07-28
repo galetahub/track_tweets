@@ -5,7 +5,7 @@ module TrackTweets
       
       def start
         tweets_count = track_item.tweets.active.count
-        users_count = Tweet.by_users(track_item.id).size
+        users_count = Tweet.by_users_count(track_item.id)
         
         # TODO: do it by map_reduce
         #users_count = tweets_count.zero? ? 0 : Tweet.count_by(:from_user_id
