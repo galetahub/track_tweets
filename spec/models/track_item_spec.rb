@@ -27,6 +27,12 @@ describe TrackTweets::Models::TrackItem do
       @group.track_items.create(track_item_attributes.merge(:query => @track_item.query))
       @track_item.should_not be_valid
     end
+    
+    it "should be valid with same query and another group" do
+      another_group = create_group_with_name("Another test group")
+      another_group.track_items.create(track_item_attributes.merge(:query => @track_item.query))
+      @track_item.should be_valid
+    end
   end
   
   context "after_create" do

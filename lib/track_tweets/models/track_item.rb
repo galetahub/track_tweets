@@ -22,6 +22,8 @@ module TrackTweets
       
       attr_accessible :query, :track_type_id
       
+      scope :active, where(:state => TrackTweets::ACTIVE)
+      
       after_create :create_jobs
       
       def active?
@@ -29,7 +31,7 @@ module TrackTweets
       end
       
       def all_count
-        { :id => id, :query => query, :tweets => tweets_count, :users => users_count }
+        { :id => id, :query => query, :tweets => tweets_count["count"].to_i, :users => users_count["count"].to_i }
       end
       
       def tweets_count
@@ -40,18 +42,20 @@ module TrackTweets
         calc_sum(:users_count)
       end
       
-      private 
-        
-        def create_jobs
-          track_jobs.create(:invoke_at => Time.now.utc + group.delay)
-          stat_jobs.create(:invoke_at => Time.now.utc + group.timeout)
-        end
+      def create_jobs
+        track_jobs.create(:invoke_at => Time.now.utc + group.delay)
+        stat_jobs.create(:invoke_at => Time.now.utc + group.timeout)
+      end
+      
+      private
         
         def calc_sum(column)
           unless TrackItemStat.count.zero?
             count = TrackItemStat.sum_count_by(column, :query => {:track_item_id => self.id}).find
               
             count.first['value']
+          else
+            {"count" => 0, "rows" => 0}
           end
         end
     end

@@ -28,12 +28,12 @@ module TrackTweets
         end
       end
       
-      def track_jobs     
-        start_jobs(Models::TrackJob.active.all, :delay)
+      def track_jobs
+        start_jobs(Models::TrackJob.can_started.all)
       end
       
       def stats_jobs
-        start_jobs(Models::StatJob.active.all, :timeout)
+        start_jobs(Models::StatJob.can_started.all)
       end
       
       private 
@@ -44,9 +44,9 @@ module TrackTweets
         end
         
         # TODO: Do it by query, pass scope
-        def start_jobs(jobs, increment_column)
+        def start_jobs(jobs)
           jobs.each do |job|
-            job.start if job.ready?(increment_column)
+            job.start if job.track_item.active?
           end
         end
     end

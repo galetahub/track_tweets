@@ -118,6 +118,10 @@ module TrackTweets
         render group.track_items
       end
       
+      get ':group_id/stats' do
+        render group.all_stats
+      end
+      
       get ':group_id/track_items/:id' do
         render track_item, :include => [:track_jobs]
       end
@@ -149,6 +153,10 @@ module TrackTweets
       
       get ':id/tweets' do
         render track_item.all_count, :root => "track_item"
+      end
+      
+      get ':id/stats' do
+        render track_item.track_item_stats
       end
       
       put ':id' do

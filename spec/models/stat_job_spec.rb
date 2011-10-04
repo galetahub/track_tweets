@@ -9,6 +9,10 @@ describe TrackTweets::Models::StatJob do
     @stat_job = @track_item.stat_jobs.first
   end
   
+  after(:each) do
+    DatabaseCleaner.clean
+  end
+  
   it "should be not ready" do
     @stat_job.ready?(:timeout).should be_false
   end
@@ -56,6 +60,9 @@ describe TrackTweets::Models::StatJob do
       end
       
       it "should calculate statisticts" do
+        @track_item.tweets.count.should == 6
+        @track_item.track_item_stats.count.should == 1
+        
         stat = @track_item.track_item_stats.last
         stat.tweets_count.should == 6
         stat.users_count.should == 5

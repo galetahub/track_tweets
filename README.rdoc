@@ -26,6 +26,10 @@ Start mongodb as service
 
   rake checker:track_jobs
   rake checker:stats_jobs
+  
+Clear all jobs, tweets and stats. Then create new jobs to all track_items
+
+  rake data:clear
 
 == Cron
 

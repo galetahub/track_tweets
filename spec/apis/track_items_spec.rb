@@ -86,12 +86,18 @@ describe TrackTweets::API do
           end
         end
         
+        it 'should render track_item_stats' do
+          get "/api/v1/track_items/#{@track_item.id}/stats.xml"
+          last_response.status.should == 200
+          last_response.body.should == @track_item.track_item_stats.to_xml
+        end
+        
         it "should render track_item tweets statisticts" do
           get "/api/v1/groups/#{@group.id}/track_items/#{@track_item.id}/tweets.xml"
           
           last_response.status.should == 200
-          last_response.body.should include('<count type="float">40.0</count>')
-          last_response.body.should include('<count type="float">20.0</count>')
+          last_response.body.should include('<users type="integer">20</users>')
+          last_response.body.should include('<tweets type="integer">40</tweets>')
         end
         
         it "should render track_item tweets statisticts without group" do
@@ -100,8 +106,8 @@ describe TrackTweets::API do
           last_response.status.should == 200
           last_response.body.should include("<id>#{@track_item.id}</id>")
           last_response.body.should include("<query>#{@track_item.query}</query>")
-          last_response.body.should include('<count type="float">40.0</count>')
-          last_response.body.should include('<count type="float">20.0</count>')
+          last_response.body.should include('<users type="integer">20</users>')
+          last_response.body.should include('<tweets type="integer">40</tweets>')
         end
         
         it "should render track_item statisticts by query" do

@@ -24,6 +24,7 @@ module TrackTweets
   ACTIVE = 1
   STOPPED = 2
   BANNED = 3
+  COMPLETED = 4
   
   #
   # TrackTweets.logger.info 'Demo convert'
