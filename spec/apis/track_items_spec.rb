@@ -103,6 +103,14 @@ describe TrackTweets::API do
           last_response.body.should include('<count type="float">40.0</count>')
           last_response.body.should include('<count type="float">20.0</count>')
         end
+        
+        it "should render track_item statisticts by query" do
+          get "/api/v1/groups/#{@group.id}/urls/count.xml?query=#{@track_item.query}"
+          
+          last_response.status.should == 200
+          last_response.body.should include("<id>#{@track_item.id}</id>")
+          last_response.body.should include("<query>#{@track_item.query}</query>")
+        end
       end
     end
   end
