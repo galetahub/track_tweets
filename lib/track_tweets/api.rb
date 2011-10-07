@@ -11,6 +11,16 @@ module TrackTweets
         TrackTweets.logger
       end
       
+      def authenticate!
+        http_basic do |username, password|
+          if ENV['RACK_ENV'] == 'test'
+            username == "demo"
+          else
+            username == "aimbulance" && password == "F>bxHe(7Zvod@2'+HuQR"
+          end
+        end
+      end
+      
       # Fix issue:
       # https://github.com/josh/rack-mount/issues/16
       # Commit: https://github.com/intridea/grape/commit/316d863a5049ef99ce802af37b35284123878fe8
@@ -32,14 +42,6 @@ module TrackTweets
             )
           end
         end
-      end
-    end
-    
-    http_basic do |username, password|
-      if ENV['RACK_ENV'] == 'test'
-        username == "demo"
-      else
-        username == "aimbulance" && password == "F>bxHe(7Zvod@2'+HuQR"
       end
     end
     
@@ -74,6 +76,8 @@ module TrackTweets
     end
     
     resources :groups do
+      authenticate!
+      
       helpers do
         def group
           @group ||= Models::Group.find(params[:id])
@@ -104,6 +108,8 @@ module TrackTweets
     end
     
     namespace :groups do
+      authenticate!
+      
       helpers do
         def group
           @group ||= Models::Group.find(params[:group_id])
@@ -132,15 +138,12 @@ module TrackTweets
       
       post ':group_id/track_items' do
         render group.track_items.create(params[:track_item])
-      end
-      
-      get ':group_id/urls/count' do
-        @track_item = group.track_items.where(:query => params[:query]).first
-        render @track_item.all_count, :root => "track_item"
-      end
+      end      
     end
     
     resources :track_items do
+      authenticate!
+      
       helpers do
         def track_item
           @track_item ||= Models::TrackItem.find(params[:id])
@@ -171,6 +174,8 @@ module TrackTweets
     end
     
     resources :jobs do
+      authenticate!
+      
       get 'tracks' do
         render Models::TrackJob.active.all
       end
@@ -178,6 +183,12 @@ module TrackTweets
       get 'stats' do
         render Models::StatJob.active.all
       end
+    end
+    
+    get '/groups/:group_id/urls/count' do
+      @group = Models::Group.find(params[:group_id])
+      @track_item = @group.track_items.where(:query => params[:query]).first
+      render @track_item.all_count, :root => "track_item"
     end
   end
 end

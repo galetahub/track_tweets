@@ -122,6 +122,18 @@ describe TrackTweets::API do
   end
   
   context "without authentication" do
+    before(:each) do
+      @track_item = @group.track_items.create(track_item_attributes)
+    end
+
+    it "should render track_item statisticts by query" do
+      get "/api/v1/groups/#{@group.id}/urls/count.xml?query=#{@track_item.query}"
+      
+      last_response.status.should == 200
+      last_response.body.should include("<id>#{@track_item.id}</id>")
+      last_response.body.should include("<query>#{@track_item.query}</query>")
+    end
+        
     it "should not render all track_items group" do
       get "/api/v1/groups/#{@group.id}/track_items.xml"
       last_response.status.should == 401
@@ -140,7 +152,7 @@ describe TrackTweets::API do
     before(:each) do
       authorize 'wrong', 'wrong'
     end
-    
+        
     it "should not render all track_items group" do
       get "/api/v1/groups/#{@group.id}/track_items.xml"
       last_response.status.should == 401
