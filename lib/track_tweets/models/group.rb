@@ -16,7 +16,7 @@ module TrackTweets
       validates_numericality_of :timeout, :delay, :only_integer => true
       validate :timeout_vs_delay
       
-      many :track_items, :class_name => 'TrackTweets::Models::TrackItem'
+      many :track_items, :class_name => 'TrackTweets::Models::TrackItem', :dependent => :destroy
       
       attr_accessible :name, :callback_url, :timeout, :delay
       
