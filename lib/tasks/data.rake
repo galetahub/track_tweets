@@ -13,7 +13,7 @@ namespace :data do
   
   task :items_without_group do
     TrackTweets::Models::TrackItem.all.each do |item|
-      puts "#{item.id} - #{item.query} - #{item.state}" if item.group.nil?
+      puts item.destroy if item.group.nil?
     end
   end
 end
