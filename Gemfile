@@ -1,10 +1,10 @@
 source 'http://rubygems.org'
 
 gem "grape", "~> 0.1.5"
-gem "mongo_mapper", "~> 0.9.1"
+gem "mongo_mapper", "~> 0.9.2"
 gem "bson_ext", "~> 1.3.1"
-gem "activemodel", "~> 3.0.9"
-gem "activesupport", "~> 3.0.9"
+gem "activemodel", "~> 3.0.10"
+gem "activesupport", "~> 3.0.10"
 
 gem "SystemTimer", "~> 1.2.3"
 gem "json", "~> 1.5.3"
