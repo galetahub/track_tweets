@@ -14,10 +14,10 @@ module TrackTweets
       validates_uniqueness_of :query, :scope => :group_id
       validates_numericality_of :track_type_id, :only_integer => true
       
-      many :tweets, :class_name => 'TrackTweets::Models::Tweet'
-      many :track_jobs, :class_name => 'TrackTweets::Models::TrackJob'
-      many :track_item_stats, :class_name => 'TrackTweets::Models::TrackItemStat'
-      many :stat_jobs, :class_name => 'TrackTweets::Models::StatJob'
+      many :tweets, :class_name => 'TrackTweets::Models::Tweet', :dependent => :destroy
+      many :track_jobs, :class_name => 'TrackTweets::Models::TrackJob', :dependent => :destroy
+      many :track_item_stats, :class_name => 'TrackTweets::Models::TrackItemStat', :dependent => :destroy
+      many :stat_jobs, :class_name => 'TrackTweets::Models::StatJob', :dependent => :destroy
       belongs_to :group, :class_name => 'TrackTweets::Models::Group'
       
       attr_accessible :query, :track_type_id

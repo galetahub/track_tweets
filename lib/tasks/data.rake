@@ -10,4 +10,10 @@ namespace :data do
       item.create_jobs
     end
   end
+  
+  task :items_without_group do
+    TrackTweets::Models::TrackItem.all.each do |item|
+      puts item.destroy if item.group.nil?
+    end
+  end
 end
