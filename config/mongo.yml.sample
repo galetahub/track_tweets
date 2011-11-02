@@ -1,6 +1,9 @@
 defaults: &defaults
   host: 127.0.0.1
   port: 27017
+  pool_size: 5,
+  timeout: 5
+  slave_ok: true
 
 development:
   <<: *defaults

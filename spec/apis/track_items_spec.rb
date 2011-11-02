@@ -133,7 +133,14 @@ describe TrackTweets::API do
       last_response.body.should include("<id>#{@track_item.id}</id>")
       last_response.body.should include("<query>#{@track_item.query}</query>")
     end
-        
+    
+    it "should render erorr by not exists query" do
+      get "/api/v1/groups/#{@group.id}/urls/count.xml?query=wrong"
+      
+      last_response.status.should == 200
+      last_response.body.should include("<error>")
+    end
+     
     it "should not render all track_items group" do
       get "/api/v1/groups/#{@group.id}/track_items.xml"
       last_response.status.should == 401

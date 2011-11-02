@@ -188,7 +188,12 @@ module TrackTweets
     get '/groups/:group_id/urls/count' do
       @group = Models::Group.find(params[:group_id])
       @track_item = @group.track_items.where(:query => params[:query]).first
-      render @track_item.all_count, :root => "track_item"
+      
+      unless @track_item.nil?
+        render @track_item.all_count, :root => "track_item"
+      else
+        render({ :error => "TrackItem by query #{params[:query]} not found" })
+      end
     end
   end
 end

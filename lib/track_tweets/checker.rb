@@ -13,17 +13,19 @@ module TrackTweets
         query = Rack::Utils.build_query(params)
         url = [BASE_URL, query].join('?')
         
-        TrackTweets.logger.info "Send request: #{url}"
-        
         begin         
           http = Curl::Easy.new(url) do |curl| 
             curl.headers["User-Agent"] = "tracktweets-bot-#{VERSION}"
+            curl.timeout = 30
+            curl.verbose = false
+            curl.follow_location = true
+            curl.max_redirects = 2
           end
           
           http.perform
           parse(http.body_str)
         rescue Exception => e
-          TrackTweets.logger.info "Error to try request: #{e.message}"
+          TrackTweets.logger.info "Error get #{url}: #{e.message}"
           nil
         end
       end

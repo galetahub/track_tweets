@@ -2,7 +2,12 @@ source 'http://rubygems.org'
 
 gem "grape", "~> 0.1.5"
 gem "mongo_mapper", "~> 0.9.2"
-gem "bson_ext", "~> 1.3.1"
+# FIX performance issues in bson_ext 1.4.1
+#gem "bson_ext", "~> 1.3.1"
+gem 'mongo', '= 1.3.1'
+gem 'bson', '= 1.3.1'
+gem 'bson_ext', '= 1.3.1'
+
 gem "activemodel", "~> 3.0.10"
 gem "activesupport", "~> 3.0.10"
 
