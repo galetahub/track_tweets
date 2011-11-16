@@ -74,6 +74,14 @@ describe TrackTweets::API do
         }.should change { @group.track_items.count }.by(-1)
       end
       
+      it "should destroy all track_items for group" do
+        @group.track_items.create(track_item_attributes)
+        
+        lambda {
+          delete "/api/v1/groups/#{@group.id}/track_items/all.xml"
+        }.should change { @group.track_items.count }.to(0)
+      end
+      
       context "tweets statisticts" do
         before(:each) do
           (1..5).to_a.each do |num|

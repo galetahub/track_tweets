@@ -139,6 +139,11 @@ module TrackTweets
       post ':group_id/track_items' do
         render group.track_items.create(params[:track_item])
       end      
+      
+      delete ':group_id/track_items/all' do
+        group.track_items.destroy_all
+        render group
+      end
     end
     
     resources :track_items do
