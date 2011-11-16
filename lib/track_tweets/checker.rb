@@ -16,7 +16,7 @@ module TrackTweets
         begin         
           http = Curl::Easy.new(url) do |curl| 
             curl.headers["User-Agent"] = "tracktweets-bot-#{VERSION}"
-            curl.timeout = 30
+            curl.timeout = 10
             curl.verbose = false
             curl.follow_location = true
             curl.max_redirects = 2

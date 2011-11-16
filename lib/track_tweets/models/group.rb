@@ -6,8 +6,8 @@ module TrackTweets
       # Columns
       key :name, String
       key :callback_url, String
-      key :timeout, Integer, :default => 60
-      key :delay, Integer, :default => 30
+      key :timeout, Integer, :default => (60 * 60 * 4)
+      key :delay, Integer, :default => (60 * 60 * 2)
       key :state,  Integer, :default => 1
       timestamps!
       
