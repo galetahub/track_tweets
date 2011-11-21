@@ -69,7 +69,7 @@ module TrackTweets
         
         case format
           when 'xml' then collection.to_xml(options)
-          when 'json' then collection.to_json(options)
+          when 'json' then collection.as_json(options)
           else collection
         end
       end
