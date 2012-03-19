@@ -1,6 +1,6 @@
 = TrackTweets
 
-Tritter search API don't index old tweets, but we neet it to get statisticts, so we made this service.
+Twitter search API don't index old tweets, but we need it to get statisticts, so we create this service.
 
 == Install
   
