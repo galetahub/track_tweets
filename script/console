@@ -1,0 +1,26 @@
+#! /usr/bin/env ruby
+# This console script adapted from:rake
+#   http://barkingiguana.com/blog/2009/01/25/scriptconsole-for-your-application/
+
+libs = []
+libs << "irb/completion"
+libs << ::File.expand_path('../../config/environment',  __FILE__)
+
+env = (ARGV[0] || 'production')
+
+command_line = []
+command_line << "irb"
+command_line << libs.inject("") { |acc, lib| acc + %( -r "#{lib}") }
+command_line << "--simple-prompt"
+command = command_line.join(" ")
+
+ENV['RACK_ENV'] = case ARGV.first
+  when "p"; "production"
+  when "d"; "development"
+  when "t"; "test"
+  else
+    ARGV.first || ENV['RACK_ENV'] || 'development'
+end
+
+puts "Welcome to the Track tweets console interface (env: #{ENV['RACK_ENV']})."
+exec command
