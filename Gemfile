@@ -9,7 +9,7 @@ gem "activemodel", "~> 3.0.10"
 gem "activesupport", "~> 3.0.10"
 
 # For ruby 1.8.7
-#gem "SystemTimer", "~> 1.2.3"
+gem "SystemTimer", "~> 1.2.3", :platforms => :ruby_18
 
 gem "json", "~> 1.5.3"
 gem "rack-contrib", "~> 1.1.0"
